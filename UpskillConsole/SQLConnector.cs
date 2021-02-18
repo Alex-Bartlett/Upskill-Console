@@ -7,7 +7,12 @@ namespace UpskillConsole
 {
     class SQLConnector
     {
-        public static void Connect()
+        /// <summary>
+        /// Send true if you do not want connection messages.
+        /// </summary>
+        /// <param name="noErrors"> send false to receive confirmations of connections.</param>
+        /// <returns></returns>
+        public static SqlConnection Connect(bool noErrors)
         {
             Console.WriteLine("Getting Connection ...");
 
@@ -18,20 +23,24 @@ namespace UpskillConsole
             //create instanace of database connection
             SqlConnection conn = new SqlConnection(connString);
 
-
-            try
+            if (noErrors == false)
             {
-                Console.WriteLine("Opening Connection ...");
+                try
+                {
+                    Console.WriteLine("Opening Connection ...");
 
-                //open connection
-                conn.Open();
+                    //open connection
+                    conn.Open();
 
-                Console.WriteLine("Connection successful!");
+                    Console.WriteLine("Connection successful!");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                }
+                conn.Close();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
+            return conn;
         }
     }
 }
