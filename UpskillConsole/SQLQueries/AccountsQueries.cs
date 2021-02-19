@@ -23,6 +23,17 @@ namespace UpskillConsole.SQLQueries
                 Console.WriteLine("Error: " + e);
                 LoginMgmt.newAccount();
             }
+            strb.Clear();
+        }
+
+        public static string[] GetAccounts()
+        {
+            StringBuilder strb = new StringBuilder();
+            strb.Append("SELECT * FROM accounts");
+            string query = strb.ToString();
+            List<string> results = ExecuteQueries.ExecuteReadQuery(query);
+
+            return results.ToArray();
         }
     }
 }

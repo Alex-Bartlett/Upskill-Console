@@ -18,20 +18,36 @@ namespace UpskillConsole
             Console.Write("\nEnter password: ");
             string password = Console.ReadLine();
 
-            string tempUser = "temp";
-            string tempPass = "temp";
-            
-            //Change this to use real acccounts from the accounts list.
-            if ((username==tempUser) && (password == tempPass))
+            bool successfulLogin = ValidateLogin(username, password);
+            if (successfulLogin)
             {
-                Console.WriteLine("Login successful.");
+                Console.WriteLine("\nLogin successful. Welcome " + username);
                 return true;
             }
             else
             {
+                Console.WriteLine("\nIncorrect details provided.");
                 return false;
             }
-            
+
+
+
+        }
+
+        public static bool ValidateLogin(string username, string password)
+        {
+            string[] accounts = SQLQueries.AccountsQueries.GetAccounts();
+            for (int i = 0; i<accounts.Length; i++)
+            {
+                if (username == accounts[i])
+                {
+                    if (password == accounts[i + 1])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public static void Login()

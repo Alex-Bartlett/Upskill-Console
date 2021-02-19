@@ -14,7 +14,6 @@ namespace UpskillConsole
         /// <returns></returns>
         public static SqlConnection Connect(bool noErrors)
         {
-            Console.WriteLine("Getting Connection ...");
 
 
             //your connection string 
@@ -25,6 +24,8 @@ namespace UpskillConsole
 
             if (noErrors == false)
             {
+                Console.WriteLine("Getting Connection ...");
+
                 try
                 {
                     Console.WriteLine("Opening Connection ...");
