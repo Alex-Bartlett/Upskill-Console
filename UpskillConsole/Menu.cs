@@ -106,6 +106,7 @@ namespace UpskillConsole
                     case 3:
                         {
                             //Add method
+                            JobMgmt.PrintAllJobs();
                             break;
                         }
                     //In-progress jobs
@@ -137,6 +138,7 @@ namespace UpskillConsole
                 }
                 else
                 {
+                    throw;
                     Console.WriteLine("An error occured. Please try again.");
                     Navigator();
                 }
