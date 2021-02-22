@@ -65,16 +65,17 @@ namespace UpskillConsole
         /// <summary>
         /// The main login method. Prompts the user to select login or signup, then executes the appropriate methods.
         /// </summary>
-        public static void Login()
+        public static bool Login()
         {            
             bool choice = PromptForLoginChoice();
             if (choice)
             {
                 newAccount();
+                return true;
             }
             else
             {
-                LoginToAccount();
+                return LoginToAccount(); //Return result of login.
             }
         }
 
@@ -96,15 +97,36 @@ namespace UpskillConsole
             string password = Console.ReadLine();
             Console.WriteLine("\nRegistering..");
 
-            //Add the account to the database
-            SQLQueries.AccountsQueries.AddAccount(username, password);
+            //Check if the username already exists
+            if (CheckIfAlreadyExists(username))
+            {
+                Console.WriteLine("\nError: Username already exists in database. Please login or try again.");
+                Login();
+                return;
+            }
+            else
+            {
+                //Add the account to the database
+                SQLQueries.AccountsQueries.AddAccount(username, password);
 
-            Console.WriteLine("Registered. Please login.");
-            //Prompt to login
-            LoginToAccount();
-
+                Console.WriteLine("Registered. Please login.");
+                //Prompt to login
+                LoginToAccount();
+            }
         }
 
+        private static bool CheckIfAlreadyExists(string username)
+        {
+            string[] accounts = SQLQueries.AccountsQueries.GetAccounts();
+            for(int i = 0; i< accounts.Length; i += 2)
+            {
+                if (username == accounts[i])
+                {
+                    return true; //If a matching username is found.
+                }
+            }
+            return false; //No matches were found.
+        }
 
 
         /// <summary>
@@ -113,8 +135,13 @@ namespace UpskillConsole
         /// <returns>Returns true if new account, false if login</returns>
         static bool PromptForLoginChoice()
         {
-            Console.Write("\n[Enter] to login\n[n] to add a new login\n>");
+            //Hide cursor
+            Console.CursorVisible = false;
+            Console.Write("\n[Enter] to login\n[n] to add a new login");
             ConsoleKeyInfo choice = Console.ReadKey();
+            Console.WriteLine();//Drop a line.
+            //Show cursor
+            Console.CursorVisible = true;
             //Uses console key so user doesn't need to press enter afterwards
             if (choice.Key == ConsoleKey.N)
             {
