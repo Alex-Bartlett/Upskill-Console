@@ -16,6 +16,9 @@ namespace UpskillConsole
 
             //Display the options to the user.
             DisplayMenu();
+
+            //Navigate the user.
+            Navigator();
         }
 
         //Clear the console
@@ -79,7 +82,66 @@ namespace UpskillConsole
         /// </summary>
         private static void Navigator()
         {
+            Console.Write("\n>");
+            ConsoleKeyInfo choice = Console.ReadKey();
+            Console.WriteLine(); //Drop a line
 
+            try
+            {
+                switch (int.Parse(choice.KeyChar.ToString()))
+                {
+                    //Search
+                    case 1:
+                        {
+                            //Add method
+                            break;
+                        }
+                    //Add job
+                    case 2:
+                        {
+                            //Add method
+                            break;
+                        }
+                    //View all jobs
+                    case 3:
+                        {
+                            //Add method
+                            break;
+                        }
+                    //In-progress jobs
+                    case 4:
+                        {
+                            //Add method
+                            break;
+                        }
+                    //Manage customers
+                    case 5:
+                        {
+                            //Add method
+                            break;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Option does not exist. Try again.");
+                            Navigator();
+                            break;
+                        }
+                }
+            }
+            catch(Exception e)
+            {
+                if (e is FormatException)
+                {
+                    Console.WriteLine("Option does not exist. Try again.");
+                    Navigator();
+                }
+                else
+                {
+                    Console.WriteLine("An error occured. Please try again.");
+                    Navigator();
+                }
+            
+            }
         }
 
 
