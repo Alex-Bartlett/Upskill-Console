@@ -33,6 +33,9 @@ namespace UpskillConsole
 
     class CustomerMgmt
     {
-        
+        /*public static CustomerStruct SearchCustomers()
+        {
+            return;
+        }*/
     }
 }

@@ -8,6 +8,7 @@ namespace UpskillConsole
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             //Establish connection to the database and warn user of any errors.
             SQLConnector.Connect(false);
             //Get the user to login

@@ -14,12 +14,48 @@ namespace UpskillConsole.SQLQueries
             SqlConnection connection = SQLConnector.Connect(true);
             using (connection)
             {
-                SqlCommand command = new SqlCommand(commandString, connection);
-                command.Connection.Open();
-                int affectedRows = command.ExecuteNonQuery();
-                return affectedRows;
+                try
+                {
+                    SqlCommand command = new SqlCommand(commandString, connection);
+                    command.Connection.Open();
+                    int affectedRows = command.ExecuteNonQuery();
+                    command.Connection.Close();
+                    return affectedRows;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Error: " + e);
+                    throw;
+                }
             }
         }
+
+        /// <summary>
+        /// Executes an non-query using a preconstructed SqlCommand to allow for parameterisation. Requires pre-connection to retrieve connection. For this, use SQLConnector.Connect(true).
+        /// </summary>
+        /// <param name="command">Command to be executed.</param>
+        /// <returns>Amount of rows affected.</returns>
+        public static int ExecuteParameterisedNonQuery(SqlCommand command)
+        {
+            SqlConnection connection = SQLConnector.Connect(true);
+            using (connection)
+            {
+                try
+                {
+                    command.Connection.Open();
+                    int affectedRows = command.ExecuteNonQuery();
+                    return affectedRows;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Error: " + e);
+                    throw;
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// Returns a list format of results from query.
         /// </summary>

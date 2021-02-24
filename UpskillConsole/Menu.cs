@@ -8,17 +8,22 @@ namespace UpskillConsole
     //Its purpose is to display the menu and call the correct methods to navigate the program.
     class Menu
     {
+        static bool endLoop = false;
         //The main function.
         public static void ShowMenu()//Rename this
         {
-            //Begin by clearing the console.
-            ClearConsole();
+            do
+            {
+                //Begin by clearing the console.
+                ClearConsole();
 
-            //Display the options to the user.
-            DisplayMenu();
+                //Display the options to the user.
+                DisplayMenu();
 
-            //Navigate the user.
-            Navigator();
+                //Navigate the user.
+                Navigator();
+            }
+            while (endLoop == false);
         }
 
         //Clear the console
@@ -39,6 +44,7 @@ namespace UpskillConsole
             string viewAllJobs = "[3] View all jobs";
             string inProgressJobs = "[4] View in-progress jobs";
             string manageCustomers = "[5] Manage your customers";
+            string logout = "[0] Logout";
 
             string[] allOptions = new string[] { menu, search, addJob, viewAllJobs, inProgressJobs, manageCustomers }; //Add all options here. Also add button to Navigator method.
             //Set a length for the sizing of the underscores.
@@ -72,6 +78,10 @@ namespace UpskillConsole
             //Sends the user to a new menu where they can view all customers(and delete), search through, or add customers.
             Console.WriteLine(manageCustomers);
 
+            //Logout
+            //Returns a boolean to logout, removes the infinite loop warning for the menu.
+            Console.WriteLine(logout);
+
             //End formatting
             Console.WriteLine(); //Drop a line.
             DrawLine(lineLength, "=");
@@ -85,6 +95,8 @@ namespace UpskillConsole
             Console.Write("\n>");
             ConsoleKeyInfo choice = Console.ReadKey();
             Console.WriteLine(); //Drop a line
+
+            JobMgmt jobMgmt = new JobMgmt();
 
             try
             {
@@ -100,13 +112,14 @@ namespace UpskillConsole
                     case 2:
                         {
                             //Add method
+                            jobMgmt.AddJob();
                             break;
                         }
                     //View all jobs
                     case 3:
                         {
                             //Add method
-                            JobMgmt.PrintAllJobs();
+                            jobMgmt.PrintAllJobs();
                             break;
                         }
                     //In-progress jobs
@@ -121,6 +134,11 @@ namespace UpskillConsole
                             //Add method
                             break;
                         }
+                    case 0:
+                        {
+                            endLoop = true;
+                            return;
+                        }
                     default:
                         {
                             Console.WriteLine("Option does not exist. Try again.");
@@ -133,14 +151,13 @@ namespace UpskillConsole
             {
                 if (e is FormatException)
                 {
-                    Console.WriteLine("Option does not exist. Try again.");
+                    Console.WriteLine("Format exception. Option does not exist. Try again.");
                     Navigator();
                 }
                 else
                 {
+                    Console.WriteLine("An error occured. Please report.");
                     throw;
-                    Console.WriteLine("An error occured. Please try again.");
-                    Navigator();
                 }
             
             }
