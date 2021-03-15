@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 
 namespace UpskillConsole
 {
+    //This is the full change list.
     class Program
     {
         static void Main(string[] args)
